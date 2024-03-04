@@ -1,0 +1,31 @@
+name: Update main version
+
+run-name: Move ${{ github.event.inputs.major_version }} to ${{ github.event.inputs.target }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Tag or reference to use
+        required: true
+      major_version:
+        type: choice
+        description: Major version to update
+        options:
+          - "v1"
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Configure Git
+      run: |
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git config user.name 'github-actions[bot]'
+    - name: Tag new target
+      run: git tag --force ${{ github.event.inputs.major_version }} ${{ github.event.inputs.target }}
+    - name: Push new tag
+      run: git push --force origin ${{ github.event.inputs.major_version }}
