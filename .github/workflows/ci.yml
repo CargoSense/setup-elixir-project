@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: super-linter/super-linter/slim@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  test-defaults:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create .tool-versions file
+        run: |
+          echo "elixir 1.16.1-otp-26\nerlang 26.2.2\n" > .tool-versions
+      - uses: ./
+      - name: Check Erlang and Elixir versions
+        run:
+          elixir --version | grep 'Erlang/OTP 26'
+          elixir --version | grep 'Elixir 1.16.1'
+  test-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          elixir-version: "1.15"
+          otp-version: "25"
+      - name: Check Erlang and Elixir versions
+        run:
+          elixir --version | grep 'Erlang/OTP 25'
+          elixir --version | grep 'Elixir 1.15'
