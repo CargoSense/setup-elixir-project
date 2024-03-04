@@ -37,7 +37,7 @@ runs:
       run: |
         otp_version="${{ inputs.otp-version }}"
         if [ "${otp_version}" == "" ]; then otp_version="$(grep -oP "^erlang\s\K(.+)$" .tool-versions)"; fi
-        echo "otp-version=${otp_version}" >> $GITHUB_OUTPUT
+        echo "otp-version=${otp_version}" >> "${GITHUB_OUTPUT}"
       shell: bash
 
     - name: Set Elixir version
@@ -45,7 +45,7 @@ runs:
       run: |
         elixir_version="${{ inputs.elixir-version }}"
         if [ "${elixir_version}" == "" ]; then elixir_version="$(grep -oP "^elixir\s\K(.+)$" .tool-versions)"; fi
-        echo "elixir-version=${elixir_version}" >> $GITHUB_OUTPUT
+        echo "elixir-version=${elixir_version}" >> "${GITHUB_OUTPUT}"
       shell: bash
 
     - name: Install Erlang/OTP and Elixir
@@ -59,7 +59,7 @@ runs:
     - name: Set shared cache key
       id: set-shared-cache-key
       run: |
-        echo "shared-cache-key=${{ inputs.cache-key }}-${{ runner.os }}-${{ steps.set-otp-version.outputs.otp-version }}-${{ steps.set-elixir-version.outputs.elixir-version }}" >> $GITHUB_OUTPUT
+        echo "shared-cache-key=${{ inputs.cache-key }}-${{ runner.os }}-${{ steps.set-otp-version.outputs.otp-version }}-${{ steps.set-elixir-version.outputs.elixir-version }}" >> "${GITHUB_OUTPUT}"
       shell: bash
 
     - name: Restore application build cache
