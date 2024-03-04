@@ -1,6 +1,8 @@
-# setup-elixir-project
+# CargoSense/setup-elixir-project
 
-**A composite GitHub Action for configuring, installing, and building your project's Erlang/OTP and Elixir versions, dependencies, and application code.**
+🧪 ⚙️ **A composite GitHub Action for configuring, installing, and building your project's [Erlang/OTP](https://www.erlang.org) and [Elixir](https://elixir-lang.org) versions, dependencies, and application code.**
+
+[![Build](https://img.shields.io/github/actions/workflow/status/CargoSense/setup-elixir-project/ci.yml?branch=main&logo=github&style=for-the-badge)](https://github.com/CargoSense/setup-elixir-project/actions/workflows/ci.yml)
 
 ## Usage
 
