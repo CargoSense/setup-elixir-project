@@ -1,18 +1,10 @@
 name: Update main version
 
-run-name: Move ${{ github.event.inputs.major_version }} to ${{ github.event.inputs.target }}
+run-name: Move main version to ${{ github.ref_name }}
 
 on:
-  workflow_dispatch:
-    inputs:
-      target:
-        description: Tag or reference to use
-        required: true
-      major_version:
-        type: choice
-        description: Major version to update
-        options:
-          - "v1"
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -28,7 +20,12 @@ jobs:
       run: |
         git config user.email 'github-actions[bot]@users.noreply.github.com'
         git config user.name 'github-actions[bot]'
+    - name: Set main version
+      id: set-main-version
+      run: |
+        main_version="$(echo "${{ github.ref_name }}" | grep -oP "^(v\d+)")"
+        echo "main-version=${main_version}" >> $GITHUB_OUTPUT
     - name: Tag new target
-      run: git tag --force ${{ github.event.inputs.major_version }} ${{ github.event.inputs.target }}
+      run: git tag --force ${{ steps.set-main-version.outputs.main-version }} ${{ github.ref_name }}
     - name: Push new tag
-      run: git push --force origin ${{ github.event.inputs.major_version }}
+      run: git push --force origin ${{ steps.set-main-version.outputs.main-version }}
