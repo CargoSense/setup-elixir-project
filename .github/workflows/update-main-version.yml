@@ -24,7 +24,7 @@ jobs:
       id: set-main-version
       run: |
         main_version="$(echo "${{ github.ref_name }}" | grep -oP "^(v\d+)")"
-        echo "main-version=${main_version}" >> $GITHUB_OUTPUT
+        echo "main-version="${main_version}"" >> $GITHUB_OUTPUT
     - name: Tag new target
       run: git tag --force ${{ steps.set-main-version.outputs.main-version }} ${{ github.ref_name }}
     - name: Push new tag
