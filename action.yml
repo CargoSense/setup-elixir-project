@@ -20,6 +20,12 @@ inputs:
       An arbitrary string added to the derived cache key names. Set or change to
       invalidate existing caches.
     default: "v1"
+  build-app:
+    description: Compile application using `mix compile`.
+    default: true
+  build-flags:
+    description: Additional flags to pass to `mix compile`.
+    default: "--all-warnings"
 
 outputs:
   otp-version:
@@ -105,5 +111,6 @@ runs:
       shell: bash
 
     - name: Compile application
-      run: mix compile
+      if: inputs.build-app == 'true'
+      run: mix compile ${{ inputs.build-flags }}
       shell: bash

@@ -23,6 +23,12 @@
     # invalidate existing caches.
     # Default: "v1"
     cache-key: ""
+    # Compile application using `mix compile`.
+    # Default: true
+    build-app: true
+    # Additional flags to pass to `mix compile`.
+    # Default: "--all-warnings"
+    build-flags: ""
 ```
 
 ### Basic Usage
