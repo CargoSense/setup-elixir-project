@@ -54,7 +54,7 @@ runs:
       with:
         otp-version: ${{ steps.set-otp-version.outputs.otp-version }}
         elixir-version: ${{ steps.set-elixir-version.outputs.elixir-version }}
-        version-type: ${{ (inputs.otp-version == '' || inputs.elixir-version == '') && 'stict' || loose }}
+        version-type: ${{ (inputs.otp-version == '' || inputs.elixir-version == '') && 'stict' || 'loose' }}
 
     - name: Set shared cache key
       id: set-shared-cache-key
