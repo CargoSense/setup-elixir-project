@@ -1,0 +1,13 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/CargoSense/devcontainer-features/actionlint:1": {}
+  }
+}
