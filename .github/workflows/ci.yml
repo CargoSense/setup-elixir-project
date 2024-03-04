@@ -6,8 +6,14 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permission:
+  contents: read
+
 jobs:
   lint:
+    permissions:
+      contents: read
+      statuses: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
