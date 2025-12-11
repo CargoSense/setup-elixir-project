@@ -6,9 +6,15 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "EditorConfig.EditorConfig",
-        "jasonnutter.vscode-codeowners"
-      ]
+        "jasonnutter.vscode-codeowners",
+        "prettier.prettier-vscode"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "prettier.prettier-vscode",
+        "[javascript]": {
+          "editor.defaultFormatter": "prettier.prettier-vscode"
+        }
+      }
     }
   }
 }
