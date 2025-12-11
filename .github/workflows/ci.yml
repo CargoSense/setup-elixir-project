@@ -6,9 +6,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   lint:
     permissions:
@@ -16,16 +13,16 @@ jobs:
       statuses: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: super-linter/super-linter/slim@v6
+      - uses: super-linter/super-linter/slim@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   test-defaults:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Create .tool-versions file
         run: |
           printf 'elixir 1.16.1-otp-26\nerlang 26.2.2\n' > .tool-versions
@@ -37,11 +34,11 @@ jobs:
   test-inputs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./
         with:
-          elixir-version: "1.15"
-          otp-version: "25"
+          elixir-version: 1.15
+          otp-version: 25
       - name: Check Erlang and Elixir versions
         run: |
           elixir --version | grep 'Erlang/OTP 25'
