@@ -35,7 +35,7 @@
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4
+  - uses: actions/checkout@v6
   - uses: CargoSense/setup-elixir-project@v1
   - run: mix test
 ```
