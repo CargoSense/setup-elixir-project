@@ -29,10 +29,10 @@ jobs:
           main_version="$(echo "${GITHUB_REF_NAME}" | grep -oP "^(v\d+)")"
           echo "main-version=${main_version}" >> "${GITHUB_OUTPUT}"
       - name: Tag new target
-        run: git tag --force ${MAIN_VERSION} ${GITHUB_REF_NAME}
+        run: git tag --force "${MAIN_VERSION}" "${GITHUB_REF_NAME}"
         env:
           MAIN_VERSION: ${{ steps.set-main-version.outputs.main-version }}
       - name: Push new tag
-        run: git push --force origin ${MAIN_VERSION}
+        run: git push --force origin "${MAIN_VERSION}"
         env:
           MAIN_VERSION: ${{ steps.set-main-version.outputs.main-version }}
