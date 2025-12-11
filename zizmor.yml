@@ -1,3 +1,5 @@
 rules:
-  ref-confusion:
-    disable: true
+  unpinned-uses:
+    config:
+      policies:
+        "*": ref-pin
