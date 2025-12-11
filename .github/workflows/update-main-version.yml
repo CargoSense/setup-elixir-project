@@ -26,9 +26,13 @@ jobs:
       - name: Set main version
         id: set-main-version
         run: |
-          main_version="$(echo "${{ github.ref_name }}" | grep -oP "^(v\d+)")"
+          main_version="$(echo "${GITHUB_REF_NAME}" | grep -oP "^(v\d+)")"
           echo "main-version=${main_version}" >> "${GITHUB_OUTPUT}"
       - name: Tag new target
-        run: git tag --force ${{ steps.set-main-version.outputs.main-version }} ${{ github.ref_name }}
+        run: git tag --force ${MAIN_VERSION} ${GITHUB_REF_NAME}
+        env:
+          MAIN_VERSION: ${{ steps.set-main-version.outputs.main-version }}
       - name: Push new tag
-        run: git push --force origin ${{ steps.set-main-version.outputs.main-version }}
+        run: git push --force origin ${MAIN_VERSION}
+        env:
+          MAIN_VERSION: ${{ steps.set-main-version.outputs.main-version }}

@@ -41,18 +41,20 @@ runs:
     - name: Set Erlang/OTP version
       id: set-otp-version
       run: |
-        otp_version="${{ inputs.otp-version }}"
-        if [ "${otp_version}" == "" ]; then otp_version="$(grep -oP "^erlang\s\K(.+)$" .tool-versions)"; fi
-        echo "otp-version=${otp_version}" >> "${GITHUB_OUTPUT}"
+        if [[ -z "${OTP_VERSION}" ]]; then OTP_VERSION="$(grep -oP "^erlang\s\K(.+)$" .tool-versions)"; fi
+        echo "otp-version=${OTP_VERSION}" >> "${GITHUB_OUTPUT}"
       shell: bash
+      env:
+        OTP_VERSION: ${{ inputs.otp-version }}
 
     - name: Set Elixir version
       id: set-elixir-version
       run: |
-        elixir_version="${{ inputs.elixir-version }}"
-        if [ "${elixir_version}" == "" ]; then elixir_version="$(grep -oP "^elixir\s\K(.+)$" .tool-versions)"; fi
-        echo "elixir-version=${elixir_version}" >> "${GITHUB_OUTPUT}"
+        if [[ -z "${ELIXIR_VERSION}" ]]; then ELIXIR_VERSION="$(grep -oP "^elixir\s\K(.+)$" .tool-versions)"; fi
+        echo "elixir-version=${ELIXIR_VERSION}" >> "${GITHUB_OUTPUT}"
       shell: bash
+      env:
+        ELIXIR_VERSION: ${{ inputs.elixir-version }}
 
     - name: Install Erlang/OTP and Elixir
       uses: erlef/setup-beam@v1
@@ -65,13 +67,17 @@ runs:
     - name: Set shared cache key
       id: set-shared-cache-key
       run: |
-        echo "shared-cache-key=${{ inputs.cache-key }}-${{ runner.os }}-${{ steps.set-otp-version.outputs.otp-version }}-${{ steps.set-elixir-version.outputs.elixir-version }}" >> "${GITHUB_OUTPUT}"
+        echo "shared-cache-key=${CACHE_KEY}-${{ runner.os }}-${OTP_VERSION}-${ELIXIR_VERSION}" >> "${GITHUB_OUTPUT}"
       shell: bash
+      env:
+        CACHE_KEY: ${{ inputs.cache-key }}
+        ELIXIR_VERSION: ${{ steps.set-elixir-version.outputs.elixir-version }}
+        OTP_VERSION: ${{ steps.set-otp-version.outputs.otp-version }}
 
     - name: Restore application build cache
       uses: actions/cache@v4
       with:
-        path: _build/${{env.MIX_ENV}}
+        path: _build/${{ env.MIX_ENV }}
         key: build-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ env.MIX_ENV }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: |
           build-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ env.MIX_ENV }}-
@@ -112,5 +118,7 @@ runs:
 
     - name: Compile application
       if: inputs.build-app == 'true'
-      run: mix compile ${{ inputs.build-flags }}
+      run: mix compile ${BUILD_FLAGS}
       shell: bash
+      env:
+        BUILD_FLAGS: ${{ inputs.build-flags }}
