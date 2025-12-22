@@ -75,7 +75,7 @@ runs:
         OTP_VERSION: ${{ steps.set-otp-version.outputs.otp-version }}
 
     - name: Restore application build cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: _build/${{ env.MIX_ENV }}
         key: build-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ env.MIX_ENV }}-${{ hashFiles('**/mix.lock') }}
@@ -83,7 +83,7 @@ runs:
           build-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ env.MIX_ENV }}-
 
     - name: Restore project dependencies cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: deps
         key: deps-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ hashFiles('**/mix.lock') }}
@@ -91,7 +91,7 @@ runs:
           deps-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-
 
     - name: Restore Hex package manager cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.hex
         key: hex-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ hashFiles('**/mix.lock') }}
