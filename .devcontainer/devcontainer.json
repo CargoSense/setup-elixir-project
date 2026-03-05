@@ -5,10 +5,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": [
-        "esbenp.prettier-vscode",
-        "jasonnutter.vscode-codeowners"
-      ],
+      "extensions": ["esbenp.prettier-vscode", "jasonnutter.vscode-codeowners"],
       "settings": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "[javascript]": {
