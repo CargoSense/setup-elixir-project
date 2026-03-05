@@ -20,6 +20,10 @@ inputs:
       An arbitrary string added to the derived cache key names. Set or change to
       invalidate existing caches.
     default: "v1"
+  config-script:
+    description: >-
+      An optional Bash script to run before fetching and compiling dependencies.
+      May be used to configure Mix or Rebar3.
   build-app:
     description: Compile application using `mix compile`.
     default: true
@@ -115,6 +119,13 @@ runs:
       if: inputs.install-rebar == 'true'
       run: mix local.rebar --force
       shell: bash
+
+    - name: Run configuration script
+      if: inputs.config-script != ''
+      run: /bin/bash -c "${CONFIG_SCRIPT}"
+      shell: bash
+      env:
+        CONFIG_SCRIPT: ${{ inputs.config-script }}
 
     - name: Get out-of-date project dependencies
       run: mix deps.get

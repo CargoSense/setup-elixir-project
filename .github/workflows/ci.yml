@@ -34,7 +34,10 @@ jobs:
         with:
           elixir-version: 1.15
           otp-version: 25
+          config-script: |
+            echo "hello, world" > hello.txt
       - name: Check Erlang and Elixir versions
         run: |
           elixir --version | grep 'Erlang/OTP 25'
           elixir --version | grep 'Elixir 1.15'
+          grep -q "hello, world" hello.txt

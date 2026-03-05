@@ -23,6 +23,9 @@
     # invalidate existing caches.
     # Default: "v1"
     cache-key: ""
+    # An optional Bash script to run before fetching and compiling dependencies.
+    # May be used to configure Mix or Rebar3.
+    config-script: ""
     # Compile application using `mix compile`.
     # Default: true
     build-app: true
