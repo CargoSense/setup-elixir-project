@@ -40,4 +40,6 @@ jobs:
         run: |
           elixir --version | grep 'Erlang/OTP 25'
           elixir --version | grep 'Elixir 1.15'
-          grep -q "hello, world" hello.txt
+      - name: Check configuration script
+        run: |
+          grep "hello, world" hello.txt
