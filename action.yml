@@ -61,7 +61,7 @@ runs:
         ELIXIR_VERSION: ${{ inputs.elixir-version }}
 
     - name: Install Erlang/OTP and Elixir
-      uses: erlef/setup-beam@v1
+      uses: erlef/setup-beam@v1.24.0
       id: setup-beam
       with:
         otp-version: ${{ steps.set-otp-version.outputs.otp-version }}
