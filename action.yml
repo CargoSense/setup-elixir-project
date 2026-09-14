@@ -132,7 +132,7 @@ runs:
       shell: bash
 
     - name: Compile project dependencies
-      run: mix loadpaths
+      run: mix deps.loadpaths
       shell: bash
 
     - name: Compile application
