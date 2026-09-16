@@ -24,6 +24,9 @@ inputs:
     description: >-
       An optional Bash script to run before fetching and compiling dependencies.
       May be used to configure Mix or Rebar3.
+  compile-deps:
+    description: Compile application dependencies using `mix deps.loadpaths`.
+    default: true
   build-app:
     description: Compile application using `mix compile`.
     default: true
@@ -132,6 +135,7 @@ runs:
       shell: bash
 
     - name: Compile project dependencies
+      if: inputs.compile-deps == 'true'
       run: mix deps.loadpaths
       shell: bash
 

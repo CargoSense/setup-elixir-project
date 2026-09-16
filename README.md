@@ -26,6 +26,9 @@
     # An optional Bash script to run before fetching and compiling dependencies.
     # May be used to configure Mix or Rebar3.
     config-script: ""
+    # Compile application dependencies using `mix deps.loadpaths`.
+    # Default: true
+    compile-deps: true
     # Compile application using `mix compile`.
     # Default: true
     build-app: true
