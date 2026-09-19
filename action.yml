@@ -81,13 +81,21 @@ runs:
         ELIXIR_VERSION: ${{ steps.set-elixir-version.outputs.elixir-version }}
         OTP_VERSION: ${{ steps.set-otp-version.outputs.otp-version }}
 
+    # Deliberately no `restore-keys`: falling back to a `_build` compiled from
+    # a different mix.lock is unsafe. If a dependency's version moved outside
+    # its new requirement, Mix reads the stale `.app` file and fails
+    # `deps.loadpaths` with a hard "does not match the requirement" error
+    # instead of recompiling, and a job that fails never saves a cache to
+    # repair itself. On a lock change the first run compiles dependencies from
+    # scratch; every run after it gets an exact hit. The deps, Hex and Rebar
+    # caches below keep their fallbacks: `mix deps.get` reconciles those
+    # against the lock, and a re-fetched dependency is recompiled rather than
+    # validated against its old build.
     - name: Restore application build cache
       uses: actions/cache@v6.1.0
       with:
         path: _build/${{ env.MIX_ENV }}
         key: build-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ env.MIX_ENV }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: |
-          build-${{ steps.set-shared-cache-key.outputs.shared-cache-key }}-${{ env.MIX_ENV }}-
 
     - name: Restore project dependencies cache
       uses: actions/cache@v6.1.0
